@@ -1,0 +1,9 @@
+.next/
+out/
+build/
+node_modules/
+*.tsbuildinfo
+.claude/
+infra-aws/
+infra-cloudflare/memory-traces-api/
+storybook-static/

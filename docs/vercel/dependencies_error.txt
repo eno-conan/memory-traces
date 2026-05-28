@@ -1,0 +1,340 @@
+07:13:55.533 Running build in Washington, D.C., USA (East) – iad1
+07:13:55.533 Build machine configuration: 2 cores, 8 GB
+07:13:55.818 Cloning github.com/eno-conan/learn-auth-nextjs-aws (Branch: dependabot/npm_and_yarn/vitest/ui-4.0.18, Commit: 58d945a)
+07:13:57.005 Cloning completed: 1.186s
+07:13:57.324 Found .vercelignore
+07:13:57.344 Removed 59 ignored files defined in .vercelignore
+07:13:57.345   /docs/aws/AWS_SETUP_GUIDE.md
+07:13:57.345   /docs/aws/COGNITO_MFA_SETUP.md
+07:13:57.345   /docs/aws/COGNITO_USER_PERMISSIONS.md
+07:13:57.345   /docs/cc-sdd/INIT.md
+07:13:57.345   /docs/cloudflare/CLOUDFLARE_D1.md
+07:13:57.345   /docs/cloudflare/CLOUDFLARE_R2.md
+07:13:57.346   /docs/PHOTO_UPLOAD_FEATURE.md
+07:13:57.346   /docs/playwright/agent-browser.md
+07:13:57.346   /docs/security/GOOGLE_OAUTH_SETUP.md
+07:13:57.346   /docs/security/security-best-practices.md
+07:13:57.729 Restored build cache from previous deployment (HV9eER7KMAKmL9tx5cag2hzjKCn7)
+07:13:57.904 Running "bash scripts/should-deploy.sh"
+07:13:57.972 ✓ 初回デプロイまたは前回のコミットSHAが不明 → ビルド実行
+07:13:57.973 
+07:13:58.207 Running "vercel build"
+07:13:59.123 Vercel CLI 50.10.2
+07:13:59.398 Running "install" command: `npm install`...
+07:14:04.007 npm error code ERESOLVE
+07:14:04.009 npm error ERESOLVE could not resolve
+07:14:04.009 npm error
+07:14:04.010 npm error While resolving: @vitest/ui@4.0.18
+07:14:04.010 npm error Found: vitest@4.0.17
+07:14:04.011 npm error node_modules/vitest
+07:14:04.011 npm error   dev vitest@"^4.0.17" from the root project
+07:14:04.011 npm error   peerOptional vitest@"^3.0.0 || ^4.0.0" from @storybook/addon-vitest@10.1.11
+07:14:04.011 npm error   node_modules/@storybook/addon-vitest
+07:14:04.011 npm error     dev @storybook/addon-vitest@"^10.1.11" from the root project
+07:14:04.011 npm error   3 more (@vitest/browser, @vitest/browser-playwright, @vitest/coverage-v8)
+07:14:04.012 npm error
+07:14:04.012 npm error Could not resolve dependency:
+07:14:04.012 npm error peer vitest@"4.0.18" from @vitest/ui@4.0.18
+07:14:04.012 npm error node_modules/@vitest/ui
+07:14:04.012 npm error   dev @vitest/ui@"^4.0.18" from the root project
+07:14:04.012 npm error
+07:14:04.012 npm error Conflicting peer dependency: vitest@4.0.18
+07:14:04.012 npm error node_modules/vitest
+07:14:04.012 npm error   peer vitest@"4.0.18" from @vitest/ui@4.0.18
+07:14:04.012 npm error   node_modules/@vitest/ui
+07:14:04.012 npm error     dev @vitest/ui@"^4.0.18" from the root project
+07:14:04.012 npm error
+07:14:04.012 npm error Fix the upstream dependency conflict, or retry
+07:14:04.013 npm error this command with --force or --legacy-peer-deps
+07:14:04.013 npm error to accept an incorrect (and potentially broken) dependency resolution.
+07:14:04.013 npm error
+07:14:04.013 npm error
+07:14:04.013 npm error For a full report see:
+07:14:04.013 npm error /vercel/.npm/_logs/2026-02-05T22_13_59_677Z-eresolve-report.txt
+07:14:04.015 npm error A complete log of this run can be found in: /vercel/.npm/_logs/2026-02-05T22_13_59_677Z-debug-0.log
+07:14:04.055 Error: Command "npm install" exited with 1
+
+07:42:54.104 Running build in Washington, D.C., USA (East) – iad1
+07:42:54.105 Build machine configuration: 2 cores, 8 GB
+07:42:54.238 Cloning github.com/eno-conan/learn-auth-nextjs-aws (Branch: dependabot/npm_and_yarn/eslint-plugin-storybook-10.2.7, Commit: cf4b77f)
+07:42:55.446 Cloning completed: 1.208s
+07:42:55.526 Found .vercelignore
+07:42:55.573 Removed 59 ignored files defined in .vercelignore
+07:42:55.574   /docs/aws/AWS_SETUP_GUIDE.md
+07:42:55.574   /docs/aws/COGNITO_MFA_SETUP.md
+07:42:55.574   /docs/aws/COGNITO_USER_PERMISSIONS.md
+07:42:55.574   /docs/cc-sdd/INIT.md
+07:42:55.574   /docs/cloudflare/CLOUDFLARE_D1.md
+07:42:55.574   /docs/cloudflare/CLOUDFLARE_R2.md
+07:42:55.574   /docs/PHOTO_UPLOAD_FEATURE.md
+07:42:55.575   /docs/playwright/agent-browser.md
+07:42:55.575   /docs/security/GOOGLE_OAUTH_SETUP.md
+07:42:55.575   /docs/security/security-best-practices.md
+07:42:56.478 Restored build cache from previous deployment (EvcMBnVK437QQAcMLUibWWL6G1ge)
+07:42:56.609 Running "bash scripts/should-deploy.sh"
+07:42:56.632 ✓ 初回デプロイまたは前回のコミットSHAが不明 → ビルド実行
+07:42:56.633 
+07:42:56.801 Running "vercel build"
+07:42:57.831 Vercel CLI 50.10.2
+07:42:58.309 Running "install" command: `npm install`...
+07:43:00.671 npm error code ERESOLVE
+07:43:00.672 npm error ERESOLVE could not resolve
+07:43:00.672 npm error
+07:43:00.673 npm error While resolving: eslint-plugin-storybook@10.2.7
+07:43:00.673 npm error Found: storybook@10.2.1
+07:43:00.674 npm error node_modules/storybook
+07:43:00.674 npm error   dev storybook@"10.2.1" from the root project
+07:43:00.674 npm error   peer storybook@"^0.0.0-0 || ^10.1.0 || ^10.1.0-0 || ^10.2.0-0 || ^10.3.0-0" from @chromatic-com/storybook@5.0.0
+07:43:00.675 npm error   node_modules/@chromatic-com/storybook
+07:43:00.675 npm error     dev @chromatic-com/storybook@"^5.0.0" from the root project
+07:43:00.675 npm error   15 more (@storybook/addon-a11y, @storybook/addon-docs, ...)
+07:43:00.676 npm error
+07:43:00.676 npm error Could not resolve dependency:
+07:43:00.677 npm error peer storybook@"^10.2.7" from eslint-plugin-storybook@10.2.7
+07:43:00.677 npm error node_modules/eslint-plugin-storybook
+07:43:00.677 npm error   dev eslint-plugin-storybook@"^10.2.7" from the root project
+07:43:00.677 npm error
+07:43:00.678 npm error Conflicting peer dependency: storybook@10.2.7
+07:43:00.678 npm error node_modules/storybook
+07:43:00.678 npm error   peer storybook@"^10.2.7" from eslint-plugin-storybook@10.2.7
+07:43:00.678 npm error   node_modules/eslint-plugin-storybook
+07:43:00.679 npm error     dev eslint-plugin-storybook@"^10.2.7" from the root project
+07:43:00.679 npm error
+07:43:00.679 npm error Fix the upstream dependency conflict, or retry
+07:43:00.679 npm error this command with --force or --legacy-peer-deps
+07:43:00.680 npm error to accept an incorrect (and potentially broken) dependency resolution.
+07:43:00.680 npm error
+07:43:00.680 npm error
+07:43:00.681 npm error For a full report see:
+07:43:00.681 npm error /vercel/.npm/_logs/2026-02-05T22_42_58_575Z-eresolve-report.txt
+07:43:00.681 npm error A complete log of this run can be found in: /vercel/.npm/_logs/2026-02-05T22_42_58_575Z-debug-0.log
+07:43:00.714 Error: Command "npm install" exited with 1
+
+07:13:37.677 Running build in Washington, D.C., USA (East) – iad1
+07:13:37.678 Build machine configuration: 2 cores, 8 GB
+07:13:38.005 Cloning github.com/eno-conan/learn-auth-nextjs-aws (Branch: dependabot/npm_and_yarn/storybook/nextjs-10.2.7, Commit: 85d8a9a)
+07:13:38.735 Cloning completed: 729.000ms
+07:13:38.803 Found .vercelignore
+07:13:38.822 Removed 59 ignored files defined in .vercelignore
+07:13:38.822   /docs/aws/AWS_SETUP_GUIDE.md
+07:13:38.822   /docs/aws/COGNITO_MFA_SETUP.md
+07:13:38.822   /docs/aws/COGNITO_USER_PERMISSIONS.md
+07:13:38.822   /docs/cc-sdd/INIT.md
+07:13:38.822   /docs/cloudflare/CLOUDFLARE_D1.md
+07:13:38.822   /docs/cloudflare/CLOUDFLARE_R2.md
+07:13:38.822   /docs/PHOTO_UPLOAD_FEATURE.md
+07:13:38.822   /docs/playwright/agent-browser.md
+07:13:38.822   /docs/security/GOOGLE_OAUTH_SETUP.md
+07:13:38.823   /docs/security/security-best-practices.md
+07:13:39.891 Restored build cache from previous deployment (HV9eER7KMAKmL9tx5cag2hzjKCn7)
+07:13:40.006 Running "bash scripts/should-deploy.sh"
+07:13:40.030 ✓ 初回デプロイまたは前回のコミットSHAが不明 → ビルド実行
+07:13:40.030 
+07:13:40.173 Running "vercel build"
+07:13:41.073 Vercel CLI 50.10.2
+07:13:41.333 Running "install" command: `npm install`...
+07:13:43.789 npm error code ERESOLVE
+07:13:43.791 npm error ERESOLVE could not resolve
+07:13:43.791 npm error
+07:13:43.792 npm error While resolving: @storybook/nextjs@10.2.7
+07:13:43.792 npm error Found: storybook@10.2.1
+07:13:43.792 npm error node_modules/storybook
+07:13:43.793 npm error   dev storybook@"10.2.1" from the root project
+07:13:43.793 npm error   peer storybook@"^0.0.0-0 || ^10.1.0 || ^10.1.0-0 || ^10.2.0-0 || ^10.3.0-0" from @chromatic-com/storybook@5.0.0
+07:13:43.793 npm error   node_modules/@chromatic-com/storybook
+07:13:43.793 npm error     dev @chromatic-com/storybook@"^5.0.0" from the root project
+07:13:43.794 npm error   12 more (@storybook/addon-a11y, @storybook/addon-docs, ...)
+07:13:43.794 npm error
+07:13:43.794 npm error Could not resolve dependency:
+07:13:43.794 npm error peer storybook@"^10.2.7" from @storybook/nextjs@10.2.7
+07:13:43.794 npm error node_modules/@storybook/nextjs
+07:13:43.795 npm error   dev @storybook/nextjs@"10.2.7" from the root project
+07:13:43.795 npm error
+07:13:43.795 npm error Conflicting peer dependency: storybook@10.2.7
+07:13:43.796 npm error node_modules/storybook
+07:13:43.796 npm error   peer storybook@"^10.2.7" from @storybook/nextjs@10.2.7
+07:13:43.796 npm error   node_modules/@storybook/nextjs
+07:13:43.796 npm error     dev @storybook/nextjs@"10.2.7" from the root project
+07:13:43.796 npm error
+07:13:43.797 npm error Fix the upstream dependency conflict, or retry
+07:13:43.797 npm error this command with --force or --legacy-peer-deps
+07:13:43.797 npm error to accept an incorrect (and potentially broken) dependency resolution.
+07:13:43.798 npm error
+07:13:43.798 npm error
+07:13:43.798 npm error For a full report see:
+07:13:43.798 npm error /vercel/.npm/_logs/2026-02-05T22_13_41_559Z-eresolve-report.txt
+07:13:43.798 npm error A complete log of this run can be found in: /vercel/.npm/_logs/2026-02-05T22_13_41_559Z-debug-0.log
+07:13:43.840 Error: Command "npm install" exited with 1
+
+07:13:28.460 Running build in Washington, D.C., USA (East) – iad1
+07:13:28.460 Build machine configuration: 2 cores, 8 GB
+07:13:28.604 Cloning github.com/eno-conan/learn-auth-nextjs-aws (Branch: dependabot/npm_and_yarn/storybook/addon-docs-10.2.7, Commit: 47ec3ac)
+07:13:29.320 Cloning completed: 715.000ms
+07:13:29.425 Found .vercelignore
+07:13:29.473 Removed 59 ignored files defined in .vercelignore
+07:13:29.486   /docs/aws/AWS_SETUP_GUIDE.md
+07:13:29.486   /docs/aws/COGNITO_MFA_SETUP.md
+07:13:29.486   /docs/aws/COGNITO_USER_PERMISSIONS.md
+07:13:29.486   /docs/cc-sdd/INIT.md
+07:13:29.486   /docs/cloudflare/CLOUDFLARE_D1.md
+07:13:29.486   /docs/cloudflare/CLOUDFLARE_R2.md
+07:13:29.486   /docs/PHOTO_UPLOAD_FEATURE.md
+07:13:29.487   /docs/playwright/agent-browser.md
+07:13:29.487   /docs/security/GOOGLE_OAUTH_SETUP.md
+07:13:29.487   /docs/security/security-best-practices.md
+07:13:30.463 Restored build cache from previous deployment (HV9eER7KMAKmL9tx5cag2hzjKCn7)
+07:13:30.590 Running "bash scripts/should-deploy.sh"
+07:13:30.664 ✓ 初回デプロイまたは前回のコミットSHAが不明 → ビルド実行
+07:13:30.664 
+07:13:30.817 Running "vercel build"
+07:13:31.797 Vercel CLI 50.10.2
+07:13:32.109 Running "install" command: `npm install`...
+07:13:35.436 npm error code ERESOLVE
+07:13:35.436 npm error ERESOLVE could not resolve
+07:13:35.437 npm error
+07:13:35.438 npm error While resolving: @storybook/addon-docs@10.2.7
+07:13:35.439 npm error Found: storybook@10.2.1
+07:13:35.439 npm error node_modules/storybook
+07:13:35.439 npm error   dev storybook@"10.2.1" from the root project
+07:13:35.439 npm error   peer storybook@"^0.0.0-0 || ^10.1.0 || ^10.1.0-0 || ^10.2.0-0 || ^10.3.0-0" from @chromatic-com/storybook@5.0.0
+07:13:35.439 npm error   node_modules/@chromatic-com/storybook
+07:13:35.439 npm error     dev @chromatic-com/storybook@"^5.0.0" from the root project
+07:13:35.439 npm error   15 more (@storybook/addon-a11y, @storybook/addon-onboarding, ...)
+07:13:35.439 npm error
+07:13:35.439 npm error Could not resolve dependency:
+07:13:35.440 npm error peer storybook@"^10.2.7" from @storybook/addon-docs@10.2.7
+07:13:35.440 npm error node_modules/@storybook/addon-docs
+07:13:35.440 npm error   dev @storybook/addon-docs@"^10.2.7" from the root project
+07:13:35.440 npm error
+07:13:35.440 npm error Conflicting peer dependency: storybook@10.2.7
+07:13:35.441 npm error node_modules/storybook
+07:13:35.441 npm error   peer storybook@"^10.2.7" from @storybook/addon-docs@10.2.7
+07:13:35.441 npm error   node_modules/@storybook/addon-docs
+07:13:35.441 npm error     dev @storybook/addon-docs@"^10.2.7" from the root project
+07:13:35.441 npm error
+07:13:35.442 npm error Fix the upstream dependency conflict, or retry
+07:13:35.442 npm error this command with --force or --legacy-peer-deps
+07:13:35.442 npm error to accept an incorrect (and potentially broken) dependency resolution.
+07:13:35.443 npm error
+07:13:35.443 npm error
+07:13:35.443 npm error For a full report see:
+07:13:35.443 npm error /vercel/.npm/_logs/2026-02-05T22_13_32_321Z-eresolve-report.txt
+07:13:35.444 npm error A complete log of this run can be found in: /vercel/.npm/_logs/2026-02-05T22_13_32_321Z-debug-0.log
+07:13:35.480 Error: Command "npm install" exited with 1
+
+08:05:12.465 Running build in Washington, D.C., USA (East) – iad1
+08:05:12.466 Build machine configuration: 2 cores, 8 GB
+08:05:12.602 Cloning github.com/eno-conan/learn-auth-nextjs-aws (Branch: dependabot/npm_and_yarn/vitest-4.0.18, Commit: f8aa275)
+08:05:13.536 Cloning completed: 933.000ms
+08:05:13.735 Found .vercelignore
+08:05:13.785 Removed 59 ignored files defined in .vercelignore
+08:05:13.786   /docs/aws/AWS_SETUP_GUIDE.md
+08:05:13.786   /docs/aws/COGNITO_MFA_SETUP.md
+08:05:13.786   /docs/aws/COGNITO_USER_PERMISSIONS.md
+08:05:13.786   /docs/cc-sdd/INIT.md
+08:05:13.786   /docs/cloudflare/CLOUDFLARE_D1.md
+08:05:13.787   /docs/cloudflare/CLOUDFLARE_R2.md
+08:05:13.787   /docs/PHOTO_UPLOAD_FEATURE.md
+08:05:13.787   /docs/playwright/agent-browser.md
+08:05:13.787   /docs/security/GOOGLE_OAUTH_SETUP.md
+08:05:13.787   /docs/security/security-best-practices.md
+08:05:14.002 Restored build cache from previous deployment (5Ef9bfbYCK1NbChAQ5kCcD7FGXkW)
+08:05:14.399 Running "bash scripts/should-deploy.sh"
+08:05:14.421 ✓ 初回デプロイまたは前回のコミットSHAが不明 → ビルド実行
+08:05:14.421 
+08:05:14.569 Running "vercel build"
+08:05:15.610 Vercel CLI 50.10.2
+08:05:15.927 Running "install" command: `npm install`...
+08:05:19.517 npm error code ERESOLVE
+08:05:19.519 npm error ERESOLVE could not resolve
+08:05:19.520 npm error
+08:05:19.520 npm error While resolving: @vitest/coverage-v8@4.0.17
+08:05:19.520 npm error Found: @vitest/browser@4.0.18
+08:05:19.520 npm error node_modules/@vitest/browser
+08:05:19.520 npm error   peerOptional @vitest/browser@"^3.0.0 || ^4.0.0" from @storybook/addon-vitest@10.1.11
+08:05:19.521 npm error   node_modules/@storybook/addon-vitest
+08:05:19.521 npm error     dev @storybook/addon-vitest@"^10.1.11" from the root project
+08:05:19.521 npm error   @vitest/browser@"4.0.18" from @vitest/browser-playwright@4.0.18
+08:05:19.521 npm error   node_modules/@vitest/browser-playwright
+08:05:19.521 npm error     dev @vitest/browser-playwright@"^4.0.17" from the root project
+08:05:19.521 npm error     peerOptional @vitest/browser-playwright@"^4.0.0" from @storybook/addon-vitest@10.1.11
+08:05:19.521 npm error     node_modules/@storybook/addon-vitest
+08:05:19.521 npm error       dev @storybook/addon-vitest@"^10.1.11" from the root project
+08:05:19.521 npm error     1 more (vitest)
+08:05:19.521 npm error
+08:05:19.522 npm error Could not resolve dependency:
+08:05:19.522 npm error peerOptional @vitest/browser@"4.0.17" from @vitest/coverage-v8@4.0.17
+08:05:19.522 npm error node_modules/@vitest/coverage-v8
+08:05:19.522 npm error   dev @vitest/coverage-v8@"^4.0.17" from the root project
+08:05:19.522 npm error
+08:05:19.522 npm error Conflicting peer dependency: @vitest/browser@4.0.17
+08:05:19.522 npm error node_modules/@vitest/browser
+08:05:19.522 npm error   peerOptional @vitest/browser@"4.0.17" from @vitest/coverage-v8@4.0.17
+08:05:19.522 npm error   node_modules/@vitest/coverage-v8
+08:05:19.522 npm error     dev @vitest/coverage-v8@"^4.0.17" from the root project
+08:05:19.522 npm error
+08:05:19.523 npm error Fix the upstream dependency conflict, or retry
+08:05:19.523 npm error this command with --force or --legacy-peer-deps
+08:05:19.523 npm error to accept an incorrect (and potentially broken) dependency resolution.
+08:05:19.523 npm error
+08:05:19.523 npm error
+08:05:19.523 npm error For a full report see:
+08:05:19.523 npm error /vercel/.npm/_logs/2026-02-05T23_05_16_159Z-eresolve-report.txt
+08:05:19.525 npm error A complete log of this run can be found in: /vercel/.npm/_logs/2026-02-05T23_05_16_159Z-debug-0.log
+08:05:19.574 Error: Command "npm install" exited with 1
+
+07:09:57.487 Running build in Washington, D.C., USA (East) – iad1
+07:09:57.488 Build machine configuration: 2 cores, 8 GB
+07:09:57.721 Cloning github.com/eno-conan/learn-auth-nextjs-aws (Branch: dependabot/npm_and_yarn/storybook/addon-vitest-10.2.7, Commit: 75062af)
+07:09:58.312 Cloning completed: 591.000ms
+07:09:58.413 Found .vercelignore
+07:09:58.429 Removed 59 ignored files defined in .vercelignore
+07:09:58.430   /docs/aws/AWS_SETUP_GUIDE.md
+07:09:58.430   /docs/aws/COGNITO_MFA_SETUP.md
+07:09:58.430   /docs/aws/COGNITO_USER_PERMISSIONS.md
+07:09:58.430   /docs/cc-sdd/INIT.md
+07:09:58.434   /docs/cloudflare/CLOUDFLARE_D1.md
+07:09:58.434   /docs/cloudflare/CLOUDFLARE_R2.md
+07:09:58.434   /docs/PHOTO_UPLOAD_FEATURE.md
+07:09:58.435   /docs/playwright/agent-browser.md
+07:09:58.435   /docs/security/GOOGLE_OAUTH_SETUP.md
+07:09:58.435   /docs/security/security-best-practices.md
+07:10:00.153 Restored build cache from previous deployment (HV9eER7KMAKmL9tx5cag2hzjKCn7)
+07:10:00.270 Running "bash scripts/should-deploy.sh"
+07:10:00.292 ✓ 初回デプロイまたは前回のコミットSHAが不明 → ビルド実行
+07:10:00.292 
+07:10:00.435 Running "vercel build"
+07:10:01.475 Vercel CLI 50.10.2
+07:10:01.830 Running "install" command: `npm install`...
+07:10:04.264 npm error code ERESOLVE
+07:10:04.265 npm error ERESOLVE could not resolve
+07:10:04.265 npm error
+07:10:04.266 npm error While resolving: @storybook/addon-vitest@10.2.7
+07:10:04.267 npm error Found: storybook@10.2.1
+07:10:04.267 npm error node_modules/storybook
+07:10:04.267 npm error   dev storybook@"10.2.1" from the root project
+07:10:04.267 npm error   peer storybook@"^0.0.0-0 || ^10.1.0 || ^10.1.0-0 || ^10.2.0-0 || ^10.3.0-0" from @chromatic-com/storybook@5.0.0
+07:10:04.268 npm error   node_modules/@chromatic-com/storybook
+07:10:04.268 npm error     dev @chromatic-com/storybook@"^5.0.0" from the root project
+07:10:04.268 npm error   15 more (@storybook/addon-a11y, @storybook/addon-docs, ...)
+07:10:04.268 npm error
+07:10:04.268 npm error Could not resolve dependency:
+07:10:04.269 npm error peer storybook@"^10.2.7" from @storybook/addon-vitest@10.2.7
+07:10:04.269 npm error node_modules/@storybook/addon-vitest
+07:10:04.269 npm error   dev @storybook/addon-vitest@"^10.2.7" from the root project
+07:10:04.269 npm error
+07:10:04.269 npm error Conflicting peer dependency: storybook@10.2.7
+07:10:04.269 npm error node_modules/storybook
+07:10:04.270 npm error   peer storybook@"^10.2.7" from @storybook/addon-vitest@10.2.7
+07:10:04.270 npm error   node_modules/@storybook/addon-vitest
+07:10:04.270 npm error     dev @storybook/addon-vitest@"^10.2.7" from the root project
+07:10:04.270 npm error
+07:10:04.270 npm error Fix the upstream dependency conflict, or retry
+07:10:04.271 npm error this command with --force or --legacy-peer-deps
+07:10:04.271 npm error to accept an incorrect (and potentially broken) dependency resolution.
+07:10:04.271 npm error
+07:10:04.272 npm error
+07:10:04.272 npm error For a full report see:
+07:10:04.272 npm error /vercel/.npm/_logs/2026-02-05T22_10_02_063Z-eresolve-report.txt
+07:10:04.272 npm error A complete log of this run can be found in: /vercel/.npm/_logs/2026-02-05T22_10_02_063Z-debug-0.log
+07:10:04.307 Error: Command "npm install" exited with 1

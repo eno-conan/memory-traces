@@ -1,0 +1,15 @@
+# Cloudflare R2 Configuration
+# Copy this file to terraform.tfvars and fill in your actual values
+# IMPORTANT: Never commit terraform.tfvars to git
+
+# R2 endpoint URL (e.g., https://<account-id>.r2.cloudflarestorage.com)
+r2_endpoint = ""
+
+# R2 API access key ID
+r2_access_key_id = ""
+
+# R2 API secret access key
+r2_secret_access_key = ""
+
+# R2 bucket name
+r2_bucket_name = ""

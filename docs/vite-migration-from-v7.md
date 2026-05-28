@@ -1,0 +1,286 @@
+# [Vite 8.0 is out!](https://main.vite.dev/blog/announcing-vite8)
+
+[Migration Guide](https://main.vite.dev/guide/migration)
+
+## Migration from v7
+
+If you are migrating from rolldown-vite, the technical preview release for Rolldown integrated Vite for v6 & v7, only the sections with **NRV** in the title are applicable.
+
+---
+
+## Default Browser Target Change <sup>NRV</sup>
+
+The default browser value of `build.target` and `'baseline-widely-available'`, is updated to newer browser version:
+
+| Browser | Before | After |
+|---------|--------|-------|
+| Chrome  | 107    | 111   |
+| Edge    | 107    | 111   |
+| Firefox | 104    | 114   |
+| Safari  | 16.0   | 16.4  |
+
+These browser versions align with Baseline Widely Available feature sets as of 2026-01-01. In other words, they were all released about two and a half years ago.
+
+---
+
+## Rolldown
+
+Vite 8 uses Rolldown and Oxc based tools instead of esbuild and Rollup.
+
+### Gradual Migration
+
+The `rolldown-vite` package implements Vite 7 with Rolldown, without other Vite 8 changes. This can be used as a intermediate step to migrate to Vite 8. See the Rolldown Integration guide in the Vite 7 docs to switch to `rolldown-vite` from Vite 7.
+
+For users migrating from `rolldown-vite` to Vite 8, you can undo the dependency changes in `package.json` and update to Vite 8:
+
+```json
+{
+  "devDependencies": {
+    "vite": "npm:rolldown-vite@7.2.2"
+    "vite": "^8.0.0"
+  }
+}
+```
+
+### Dependency Optimizer Now Uses Rolldown
+
+Rolldown is now used for dependency optimization instead of esbuild. Vite still supports `optimizeDeps.esbuildOptions` for backward compatibility by converting it to `optimizeDeps.rolldownOptions` automatically. `optimizeDeps.esbuildOptions` is now deprecated and will be removed in the future and we encourage you to migrate to `optimizeDeps.rolldownOptions`.
+
+The following options are converted automatically:
+
+| Old (`esbuildOptions.*`)              | New (`rolldownOptions.*`)                   |
+|---------------------------------------|---------------------------------------------|
+| `minify`                              | `output.minify`                             |
+| `treeShaking`                         | `treeshake`                                 |
+| `define`                              | `transform.define`                          |
+| `loader`                              | `moduleTypes`                               |
+| `preserveSymlinks`                    | `!resolve.symlinks`                         |
+| `resolveExtensions`                   | `resolve.extensions`                        |
+| `mainFields`                          | `resolve.mainFields`                        |
+| `conditions`                          | `resolve.conditionNames`                    |
+| `keepNames`                           | `output.keepNames`                          |
+| `platform`                            | `platform`                                  |
+| `plugins`                             | `plugins` (partial support)                 |
+
+You can get the options set by the compatibility layer from the `configResolved` hook:
+
+```js
+const plugin = {
+  name: 'log-config',
+  configResolved(config) {
+    console.log('options', config.optimizeDeps.rolldownOptions)
+  },
+},
+```
+
+### JavaScript Transforms by Oxc
+
+Oxc is now used for JavaScript transformation instead of esbuild. Vite still supports the `esbuild` option for backward compatibility by converting it to `oxc` automatically. `esbuild` is now deprecated and will be removed in the future and we encourage you to migrate to `oxc`.
+
+The following options are converted automatically:
+
+| Old (`esbuild.*`)         | New (`oxc.*`)                          |
+|---------------------------|----------------------------------------|
+| `jsxInject`               | `jsxInject`                            |
+| `include`                 | `include`                              |
+| `exclude`                 | `exclude`                              |
+| `jsx`                     | `jsx`                                  |
+| `jsx: 'preserve'`         | `jsx: 'preserve'`                      |
+| `jsx: 'automatic'`        | `jsx: { runtime: 'automatic' }`        |
+| `jsxImportSource`         | `jsx.importSource`                     |
+| `jsx: 'transform'`        | `jsx: { runtime: 'classic' }`          |
+| `jsxFactory`              | `jsx.pragma`                           |
+| `jsxFragment`             | `jsx.pragmaFrag`                       |
+| `jsxDev`                  | `jsx.development`                      |
+| `jsxSideEffects`          | `jsx.pure`                             |
+| `define`                  | `define`                               |
+| `banner`                  | custom plugin using `transform` hook   |
+| `footer`                  | custom plugin using `transform` hook   |
+
+The `esbuild.supported` option is not supported by Oxc. If you need this option, please see [oxc-project/oxc#15373](https://github.com/oxc-project/oxc/issues/15373).
+
+You can get the options set by the compatibility layer from the `configResolved` hook:
+
+```js
+const plugin = {
+  name: 'log-config',
+  configResolved(config) {
+    console.log('options', config.oxc)
+  },
+},
+```
+
+Currently, the Oxc transformer does not support lowering native decorators as we are waiting for the specification to progress, see [oxc-project/oxc#9170](https://github.com/oxc-project/oxc/issues/9170).
+
+### esbuild Fallbacks
+
+`esbuild` is no longer directly used by Vite and is now an optional dependency. If you are using a plugin that uses the `transformWithEsbuild` function, you need to install `esbuild` as a `devDependency`. The `transformWithEsbuild` function is deprecated and will be removed in the future. We recommend migrating to the new `transformWithOxc` function instead.
+
+### JavaScript Minification by Oxc
+
+The Oxc Minifier is now used for JavaScript minification instead of esbuild. You can use the deprecated `build.minify: 'esbuild'` option to switch back to esbuild. This configuration option will be removed in the future and you need install `esbuild` as a `devDependency` as Vite no longer relies on esbuild directly.
+
+If you were using the `esbuild.minify*` options to control minification behavior, you can now use `build.rolldownOptions.output.minify` instead. If you were using the `esbuild.drop` option, you can now use `build.rolldownOptions.output.minify.compress.drop*` options.
+
+Property mangling and its related options (`mangleProps`, `reserveProps`, `mangleQuoted`, `mangleCache`) are not supported by Oxc. If you need these options, please see [oxc-project/oxc#15375](https://github.com/oxc-project/oxc/issues/15375).
+
+esbuild and Oxc Minifier make slightly different assumptions about source code. In case you suspect the minifier is causing breakage in your code, you can compare these assumptions here:
+
+- [esbuild minify assumptions](https://esbuild.github.io/api/#minify)
+- [Oxc Minifier assumptions](https://oxc.rs/docs/guide/usage/minifier.html)
+
+Please report any issues you find related to minification in your JavaScript apps.
+
+### CSS Minification by Lightning CSS
+
+Lightning CSS is now used for CSS minification by default. You can use the `build.cssMinify: 'esbuild'` option to switch back to esbuild. Note that you need to install `esbuild` as a `devDependency`.
+
+Lightning CSS supports better syntax lowering and your CSS bundle size might increase slightly.
+
+---
+
+## Consistent CommonJS Interop
+
+The default import from a CommonJS (CJS) module is now handled in a consistent way.
+
+If it matches one of the following conditions, the default import is the `module.exports` value of the importee CJS module. Otherwise, the default import is the `module.exports.default` value of the importee CJS module:
+
+- The importer is `.mjs` or `.mts`.
+- The closest `package.json` for the importer has a `type` field set to `module`.
+- The `module.exports.__esModule` value of the importee CJS module is not set to `true`.
+
+See Rolldown's docs about this problem for more details: [Ambiguous default import from CJS modules - Bundling CJS | Rolldown](https://rolldown.rs/guide/bundling-cjs#ambiguous-default-import-from-cjs-modules).
+
+This change may break some existing code importing CJS modules. You can use the deprecated `legacy.inconsistentCjsInterop: true` option to temporarily restore the previous behavior. If you find a package that is affected by this change, please report it to the package author or send them a pull request. Make sure to link to the Rolldown documentation above so that the author can understand the context.
+
+---
+
+## Removed Module Resolution Using Format Sniffing
+
+When both `browser` and `module` fields are present in `package.json`, Vite used to resolve the field based on the content of the file and it used to pick the ESM file for browsers. This was introduced because some packages were using the `module` field to point to ESM files for Node.js and some other packages were using the `browser` field to point to UMD files for browsers. Given that the modern `exports` field solved this problem and is now adopted by many packages, Vite no longer uses this heuristic and always respects the order of the `resolve.mainFields` option. If you were relying on this behavior, you can use the `resolve.alias` option to map the field to the desired file or apply a patch with your package manager (e.g. `patch-package`, `pnpm patch`).
+
+---
+
+## Require Calls For Externalized Modules
+
+`require` calls for externalized modules are now preserved as `require` calls and not converted to `import` statements. This is to preserve the semantics of `require` calls. If you want to convert them to `import` statements, you can use Rolldown's built-in `esmExternalRequirePlugin`, which is re-exported from `vite`.
+
+```js
+import { defineConfig, esmExternalRequirePlugin } from 'vite'
+
+export default defineConfig({
+  // ...
+  plugins: [
+    esmExternalRequirePlugin({
+      external: ['react', 'vue', /^node:/],
+    }),
+  ],
+})
+```
+
+See Rolldown's docs for more details: [require external modules - Bundling CJS | Rolldown](https://rolldown.rs/guide/bundling-cjs#require-external-modules).
+
+---
+
+## `import.meta.url` in UMD / IIFE
+
+`import.meta.url` is no longer polyfilled in UMD / IIFE output formats. It will be replaced with `undefined` by default. If you prefer the previous behavior, you can use the `define` option with `build.rolldownOptions.output.intro` option. See Rolldown's docs for more details: [Well-known import.meta properties - Non ESM Output Formats | Rolldown](https://rolldown.rs/guide/non-esm-output-formats#well-known-import-meta-properties).
+
+---
+
+## Removed `build.rollupOptions.watch.chokidar` option
+
+The `build.rollupOptions.watch.chokidar` option was removed. Please migrate to the `build.rolldownOptions.watch.watcher` option.
+
+---
+
+## Removed object form `build.rollupOptions.output.manualChunks` and deprecate function form one
+
+The object form `output.manualChunks` option is not supported anymore. The function form `output.manualChunks` is deprecated. Rolldown has the more flexible `codeSplitting` option. See Rolldown's docs for more details about `codeSplitting`: [Manual Code Splitting - Rolldown](https://rolldown.rs/guide/code-splitting).
+
+---
+
+## `build()` Throws `BundleError`
+
+This change only affects JS API users.
+
+`build()` now throws a `BundleError` instead of the raw error thrown in the plugin. `BundleError` is typed as `Error & { errors?: RolldownError[] }` and it wraps the individual errors in an `errors` array. If you need the individual errors, you need to access `.errors`:
+
+```js
+try {
+  await build()
+} catch (e) {
+  if (e.errors) {
+    for (const error of e.errors) {
+      console.log(error.code) // error code
+    }
+  }
+}
+```
+
+---
+
+## Module Type Support and Auto Detection
+
+This change only affects plugin authors.
+
+Rolldown has experimental support for Module types, similar to esbuild's `loader` option. Due to this, Rolldown automatically sets a module type based on the extension of the resolved id. If you are converting content from other module types to JavaScript in `load` or `transform` hooks, you may need to add `moduleType: 'js'` to the returned value:
+
+```js
+const plugin = {
+  name: 'txt-loader',
+  load(id) {
+    if (id.endsWith('.txt')) {
+      const content = fs.readFile(id, 'utf-8')
+      return {
+        code: `export default ${JSON.stringify(content)}`,
+        moduleType: 'js',
+      }
+    }
+  },
+}
+```
+
+---
+
+## Other Related Deprecations
+
+The following options are deprecated and will be removed in the future:
+
+- `build.rollupOptions`: renamed to `build.rolldownOptions`
+- `worker.rollupOptions`: renamed to `worker.rolldownOptions`
+- `build.commonjsOptions`: it is now no-op
+- `build.dynamicImportVarsOptions.warnOnError`: it is now no-op
+- `resolve.alias[].customResolver`: Use a custom plugin with `resolveId` hook and `enforce: 'pre'` instead
+
+---
+
+## Removed Deprecated Features <sup>NRV</sup>
+
+Passing an URL to `import.meta.hot.accept` is no longer supported. Please pass an id instead. ([#21382](https://github.com/vitejs/vite/pull/21382))
+
+---
+
+## Advanced
+
+These breaking changes are expected to only affect a minority of use cases:
+
+- Extglobs are not supported yet ([rolldown-vite#365](https://github.com/vitejs/rolldown-vite/issues/365))
+- TypeScript legacy namespace is only supported partially. See Oxc Transformer's related documentation for more details.
+- `define` does not share reference for objects: When you pass an object as a value to `define`, each variable will have a separate copy of the object. See Oxc Transformer's related documentation for more details.
+- `bundle` object changes (`bundle` is an object passed in `generateBundle` / `writeBundle` hooks, returned by `build` function):
+  - Assigning to `bundle[foo]` is not supported. This is discouraged by Rollup as well. Please use `this.emitFile()` instead.
+  - the reference is not shared across the hooks ([rolldown-vite#410](https://github.com/vitejs/rolldown-vite/issues/410))
+  - `structuredClone(bundle)` errors with `DataCloneError: #<Object> could not be cloned`. This is not supported anymore. Please clone it with `structuredClone({ ...bundle })`. ([rolldown-vite#128](https://github.com/vitejs/rolldown-vite/issues/128))
+- All parallel hooks in Rollup works as sequential hooks. See Rolldown's documentation for more details.
+- `"use strict";` is not injected sometimes. See Rolldown's documentation for more details.
+- Transforming to ES5 and below with `plugin-legacy` is not supported ([rolldown-vite#452](https://github.com/vitejs/rolldown-vite/issues/452))
+- Passing the same browser with multiple versions of it to `build.target` option now errors: esbuild selects the latest version of it, which was probably not what you intended.
+- Missing support by Rolldown: The following features are not supported by Rolldown and is no longer supported by Vite.
+  - `build.rollupOptions.output.format: 'system'` ([rolldown#2387](https://github.com/rolldown-rs/rolldown/issues/2387))
+  - `build.rollupOptions.output.format: 'amd'` ([rolldown#2387](https://github.com/rolldown-rs/rolldown/issues/2387))
+  - `shouldTransformCachedModule` hook ([rolldown#4389](https://github.com/rolldown-rs/rolldown/issues/4389))
+  - `resolveImportMeta` hook ([rolldown#1010](https://github.com/rolldown-rs/rolldown/issues/1010))
+  - `renderDynamicImport` hook ([rolldown#4532](https://github.com/rolldown-rs/rolldown/issues/4532))
+  - `resolveFileUrl` hook
+- `parseAst` / `parseAstAsync` functions are now deprecated in favor of `parseSync` / `parse` functions which have more features.

@@ -1,0 +1,55 @@
+version: 2
+updates:
+  # 1. ルートの npm 依存関係
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "friday"
+      time: "07:00"
+      timezone: "Asia/Tokyo"
+    labels:
+      - "dependencies"
+      - "npm"
+    open-pull-requests-limit: 10
+    groups:
+      vitest:
+        patterns:
+          - "vitest"
+          - "@vitest/*"
+      storybook:
+        patterns:
+          - "storybook"
+          - "@storybook/*"
+          - "eslint-plugin-storybook"
+          - "@chromatic-com/storybook"
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react"
+          - "@types/react-dom"
+
+  # 2. Cloudflare Worker の npm 依存関係
+  - package-ecosystem: "npm"
+    directory: "/infra-cloudflare/memory-traces-api"
+    schedule:
+      interval: "weekly"
+      day: "friday"
+      time: "07:00"
+      timezone: "Asia/Tokyo"      
+    labels:
+      - "dependencies"
+      - "npm"
+      - "cloudflare"
+    open-pull-requests-limit: 5
+
+  # 3. Terraform プロバイダー
+  - package-ecosystem: "terraform"
+    directory: "/infra-aws"
+    schedule:
+      interval: "monthly"
+    labels:
+      - "dependencies"
+      - "terraform"
+    open-pull-requests-limit: 5

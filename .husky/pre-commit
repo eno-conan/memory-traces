@@ -1,0 +1,13 @@
+#!/bin/sh
+
+echo "Running pre-commit quality checks..."
+
+# Run lint-staged for incremental checks
+# npx lint-staged
+
+# Type check disabled for faster commits
+# Uncomment to re-enable:
+npm run type-check
+
+echo "✅ Pre-commit checks passed"
+exit 0

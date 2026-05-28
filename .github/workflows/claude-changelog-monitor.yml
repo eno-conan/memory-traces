@@ -1,0 +1,69 @@
+name: Claude Code CHANGELOG Monitor
+
+# Runs twice weekly: Monday and Friday at 7:00 AM JST (Sunday/Thursday 22:00 UTC)
+on:
+  schedule:
+    # Tuesday 7:00 AM JST (Monday 22:00 UTC)
+    - cron: '0 22 * * 1'
+
+  # Allow manual trigger for testing
+  workflow_dispatch: {}
+
+# Prevent concurrent runs
+concurrency:
+  group: changelog-monitor
+  cancel-in-progress: false
+
+permissions:
+  contents: write  # For updating state file
+  issues: write    # For creating GitHub Issues
+
+jobs:
+  monitor:
+    name: Monitor CHANGELOG
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # Fetch only the latest commit to reduce clone time
+          fetch-depth: 1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run CHANGELOG monitor
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: npm run monitor:changelog
+
+      - name: Commit state file updates
+        if: success()
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          # Check if there are changes to commit
+          if git diff --quiet .github/data/claude-code-changelog.md; then
+            echo "No changes to state file"
+          else
+            git add .github/data/claude-code-changelog.md
+            git commit -m "chore: update Claude Code CHANGELOG state [skip ci]"
+            git push
+          fi
+
+      - name: Report failure
+        if: failure()
+        run: |
+          echo "::error::CHANGELOG monitoring failed. Check logs for details."
+          exit 1

@@ -1,0 +1,24 @@
+{
+  "name": "photo-upload-api",
+  "main": "src/index.ts",
+  "compatibility_date": "2024-01-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "account_id": "6fbec0294ac4a12bf254b85edac7efe0",
+
+  // R2バケットのバインディング
+  "r2_buckets": [
+    {
+      "binding": "PHOTO_BUCKET",
+      "bucket_name": "travel-photos"
+    }
+  ],
+
+  // D1データベースのバインディング
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "travel_photo_management",
+      "database_id": "04a42c2e-a236-49b5-8d2c-b85844f09223"
+    }
+  ]
+}

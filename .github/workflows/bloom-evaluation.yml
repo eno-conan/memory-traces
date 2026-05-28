@@ -1,0 +1,34 @@
+name: LLM Behavioral Evaluation
+
+on:
+  schedule:
+    - cron: '0 22 * * 3'  # 毎週木曜日 07:00（JST）
+  workflow_dispatch: {}
+
+jobs:
+  bloom-evaluation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      
+      - name: Install Bloom
+        run: |
+          pip install git+https://github.com/safety-research/bloom.git
+      
+      - name: Run Bloom Evaluation
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          cd evaluation/bloom
+          bloom run bloom-data
+      
+      - name: Upload Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: bloom-results
+          path: evaluation/bloom/results/

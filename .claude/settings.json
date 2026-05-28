@@ -1,0 +1,71 @@
+{
+  "cleanupPeriodDays": 14,
+  "permissions": {
+    "allow": [
+      "Read(**)",
+      "Read(**/.env.example)",
+      "Search(**)",
+      "Explore(**)",
+      "Bash",
+      "WebFetch(domain:vercel.com)",
+      "WebFetch(domain:eslint.org)",
+      "WebFetch(domain:www.npmjs.com)"
+    ],
+    "deny": [
+      "Bash(rm)",
+      "Bash(rmdir)",
+      "Read(**/.env)",
+      "Read(**/.env.local)",
+      "Read(**/.env.production)",
+      "Read(**/.env.development)",
+      "Read(./secrets/**)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/post-tool-use-lint.sh",
+            "timeout": 60,
+            "statusMessage": "Running lint check..."
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash|Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/pre-tool-use-security.sh",
+            "timeout": 10,
+            "statusMessage": "Security check..."
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bash .claude/statusline-command.sh"
+  },
+  "enabledPlugins": {
+    "playwright@claude-plugins-official": true,
+    "context7@claude-plugins-official": true,
+    "serena@claude-plugins-official": true,
+    "everything-claude-code@everything-claude-code": true,
+    "playwright-skill@playwright-skill": true,
+    "chrome-devtools-mcp@chrome-devtools-plugins": true
+  },
+  "plansDirectory": "./plans",
+  "taskManagement": {
+    "enabled": true,
+    "persistTasks": true,
+    "showDependencies": true
+  },
+  "reducedMotion": false
+}

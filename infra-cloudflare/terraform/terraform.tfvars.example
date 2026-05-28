@@ -1,0 +1,13 @@
+# Cloudflare API Token
+# https://dash.cloudflare.com/profile/api-tokens で作成
+cloudflare_api_token = "your-cloudflare-api-token"
+
+# Cloudflare Account ID
+# https://dash.cloudflare.com/ の右側に表示
+cloudflare_account_id = "your-cloudflare-account-id"
+
+# R2バケット名（オプション：デフォルトは "travel-photos"）
+r2_bucket_name = "travel-photos"
+
+# D1データベース名（オプション：デフォルトは "travel_photo_management"）
+d1_database_name = "travel_photo_management"
