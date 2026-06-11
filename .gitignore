@@ -63,7 +63,9 @@ storybook-static
 .next-docs/
 
 # Playwright
+/a11y-results/
 /test-results/
+test-results/screenshots/
 /playwright-report/
 /blob-report/
 /playwright/.cache/

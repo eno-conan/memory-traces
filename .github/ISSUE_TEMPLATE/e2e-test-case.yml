@@ -1,0 +1,95 @@
+name: E2E テストケース
+description: Playwright Agent CLI で実行する E2E テストケースを記述します
+title: "[E2E] "
+labels: ["e2e-test"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## E2E テストケース
+
+        このテンプレートは `/playwright-e2e {issue-number}` コマンドで実行される
+        自然言語 E2E テストケースの記述フォーマットです。
+
+  - type: input
+    id: target-page
+    attributes:
+      label: テスト対象ページ
+      description: テストする画面のパスを入力してください
+      placeholder: "例: /register, /dashboard"
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: 概要
+      description: テストの目的と確認したい内容を簡潔に説明してください
+      placeholder: "例: あしあと登録画面でタイトル未入力時に「刻む」ボタンが非活性であることを確認"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: device
+    attributes:
+      label: テスト対象デバイス
+      description: テストするデバイスを選択してください
+      options:
+        - PC のみ (Desktop Chrome)
+        - SP のみ (Mobile Safari / iPhone 14)
+        - PC と SP 両方
+    validations:
+      required: true
+
+  - type: textarea
+    id: preconditions
+    attributes:
+      label: 前提条件
+      description: テスト開始時のシステム状態を記述してください
+      placeholder: |
+        - ユーザーがログイン済みであること
+        - あしあとデータが1件以上登録されていること
+    validations:
+      required: true
+
+  - type: textarea
+    id: test-data
+    attributes:
+      label: テストデータ
+      description: テストで使用するデータ（URL、ユーザー情報等）を記述してください
+      placeholder: |
+        - 環境URL: http://localhost:3000
+        - テストユーザー: test@example.com（Cognito モック認証）
+        - テスト画像: ダミー JPEG（1×1 px）
+
+  - type: textarea
+    id: test-steps
+    attributes:
+      label: テスト手順
+      description: 自然言語でテスト手順を番号付きリストで記述してください
+      placeholder: |
+        1. `/register` にアクセスする
+        2. 画像ファイルを選択する
+        3. タイトルフィールドを空のままにする
+        4. 「刻む」ボタンの状態を確認する
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-results
+    attributes:
+      label: 期待値
+      description: 各手順で確認するポイントを記述してください
+      placeholder: |
+        - 手順4: 「刻む」ボタンが `disabled` 状態であること
+        - 手順4: ボタンのスタイルがグレーアウトされていること
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: 備考・注意事項
+      description: テスト実行時の注意点があれば記述してください
+      placeholder: |
+        - ファイルアップロード後に「刻む」ボタンが DOM に現れるまで待機が必要

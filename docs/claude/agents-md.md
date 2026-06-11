@@ -1,4 +1,10 @@
-# AGENTS.md とは / `npx @next/codemod@canary agents-md` について
+# AGENTS.md とは / Next.js AI エージェント設定ガイド
+
+参照元:
+- [Next.js AI Agents Guide](https://nextjs.org/docs/app/guides/ai-agents)
+- [Next.js 16.2 AI Improvements](https://nextjs.org/blog/next-16-2-ai)
+
+---
 
 ## 1. AGENTS.md の概念
 
@@ -43,136 +49,199 @@ AGENTS.md の内訳: ビルド 100% / リント 100% / テスト 100%
 1. **決定不要**: エージェントが「参照すべきか」を判断する必要がない
 2. **継続的利用可能性**: 全ターンにわたってシステムプロンプトに含まれる
 3. **順序付け問題の回避**: スキル呼び出しのシーケンス決定（どのスキルをいつ使うか）が不要
-
-### 技術的詳細
-
-- **圧縮**: 元のドキュメント（約 40KB）を **8KB**（80% 削減）に圧縮したインデックスとして CLAUDE.md / AGENTS.md に埋め込む
-- **フォーマット**: パイプ区切りの構造化インデックス（`ディレクトリ:{ファイル1,ファイル2,...}` 形式）
-- **動作**: エージェントは「ドキュメントの場所を知る」状態になり、必要に応じて `.next-docs/` ディレクトリから該当ファイルを読み取る
+4. **常時利用可能なコンテキスト**: オンデマンド取得より常時埋め込みの方が効果的
 
 ---
 
-## 3. `npx @next/codemod@canary agents-md` コマンドについて
+## 3. セットアップ方法（Next.js 16.2+）
 
-### このコマンドが行うこと
+Next.js `v16.2.0-canary.37` 以降、ドキュメントは `next` パッケージに直接バンドルされる。`node_modules/next/dist/docs/` に配置されており、外部ネットワークアクセスなしで参照可能。
 
-1. **`.next-docs/` フォルダを生成**: Next.js の公式ドキュメントを MDX 形式でローカルに展開する
-2. **CLAUDE.md / AGENTS.md を更新**: `<!-- NEXT-AGENTS-MD-START -->` 〜 `<!-- NEXT-AGENTS-MD-END -->` ブロックに圧縮インデックスを挿入する
+### 新規プロジェクト
 
-### 実行コマンド
+`create-next-app` が自動的に `AGENTS.md` と `CLAUDE.md` を生成する:
 
 ```bash
-npx @next/codemod@canary agents-md --output CLAUDE.md
+npx create-next-app@canary
+# または
+pnpm create next-app@canary
 ```
 
-### 生成物
+エージェントファイルが不要な場合:
 
-| 項目 | 内容 |
-|------|------|
-| 生成先 | `.next-docs/`（プロジェクトルート直下） |
-| ファイル数 | 約 379 ファイル |
-| ディレクトリサイズ | 約 3.2MB |
-| フォーマット | `.mdx`（MDX 形式） |
+```bash
+npx create-next-app@canary --no-agents-md
+```
 
-### `.gitignore` による除外理由
+### 既存プロジェクト（v16.2 以降）
 
-`.next-docs/` は `.gitignore` で除外されている（git 管理対象外）。理由：
+プロジェクトルートに以下の2ファイルを追加するだけでよい（コードモッド不要）。
 
-- **再現性**: コマンド 1 回で誰でも同じファイルを再生成できる
-- **リポジトリの肥大化防止**: 3.2MB を git 管理すると履歴が膨れる
-- **最新性の維持**: Next.js のバージョンアップ時にコマンド再実行で最新化できる
+`AGENTS.md` — エージェントへの指示:
 
-`.next-docs/` が手元にない場合は、上記コマンドを再実行すること。
+```md
+<!-- BEGIN:nextjs-agent-rules -->
+
+# Next.js: ALWAYS read docs before coding
+
+Before any Next.js work, find and read the relevant doc in `node_modules/next/dist/docs/`. Your training data is outdated — the docs are the source of truth.
+
+<!-- END:nextjs-agent-rules -->
+```
+
+`CLAUDE.md` — `@` インポート構文で AGENTS.md を参照（内容を重複させない）:
+
+```md
+@AGENTS.md
+```
+
+> `<!-- BEGIN:nextjs-agent-rules -->` と `<!-- END:nextjs-agent-rules -->` マーカーで囲まれた範囲が Next.js 管理セクション。マーカー外に独自のプロジェクト指示を追記してもアップデートで上書きされない。
+
+### 旧バージョン（v16.1 以前）向け
+
+コードモッドで自動生成する:
+
+```bash
+npx @next/codemod@latest agents-md
+```
+
+このコマンドはドキュメントを `.next-docs/` に展開し、エージェントファイルをその場所に向けて生成する。
 
 ---
 
-## 4. `.next-docs/` の構造
+## 4. バンドルドキュメントの構造（v16.2+）
+
+`node_modules/next/dist/docs/` に以下の構造でバンドルされる:
+
+```
+node_modules/next/dist/docs/
+├── 01-app/
+│   ├── 01-getting-started/
+│   ├── 02-guides/
+│   └── 03-api-reference/
+├── 02-pages/
+├── 03-architecture/
+└── index.mdx
+```
+
+インストール済みの Next.js バージョンに対応したドキュメントが常に参照可能。ネットワークアクセス不要で CI 環境でも動作する。
+
+<details>
+<summary>旧方式（v16.1 以前）の .next-docs/ 構造</summary>
 
 ```
 .next-docs/
-├── 01-app/                          # App Router ドキュメント
-│   ├── 01-getting-started/          # 入門ガイド（18 ファイル + index.mdx）
-│   │   ├── 01-installation.mdx
-│   │   ├── 02-project-structure.mdx
-│   │   ├── 03-layouts-and-pages.mdx
-│   │   ├── 04-linking-and-navigating.mdx
-│   │   ├── 05-server-and-client-components.mdx
-│   │   ├── 06-cache-components.mdx
-│   │   ├── 07-fetching-data.mdx
-│   │   ├── 08-updating-data.mdx
-│   │   ├── 09-caching-and-revalidating.mdx
-│   │   ├── 10-error-handling.mdx
-│   │   ├── 11-css.mdx
-│   │   ├── 12-images.mdx
-│   │   ├── 13-fonts.mdx
-│   │   ├── 14-metadata-and-og-images.mdx
-│   │   ├── 15-route-handlers.mdx
-│   │   ├── 16-proxy.mdx
-│   │   ├── 17-deploying.mdx
-│   │   └── 18-upgrading.mdx
-│   ├── 02-guides/                   # 各種ガイド（認証、テスト、移行など）
-│   │   ├── authentication.mdx       # 認証実装ガイド
-│   │   ├── testing/                 # Jest / Vitest / Playwright / Cypress
-│   │   ├── migrating/               # App Router 移行、CRA / Vite からの移行
-│   │   └── upgrading/               # v14 / v15 / v16 アップグレードガイド
-│   ├── 03-api-reference/            # API リファレンス
-│   │   ├── 01-directives/           # use-cache, use-client, use-server
-│   │   ├── 02-components/           # Image, Link, Font, Form, Script
-│   │   ├── 03-file-conventions/     # layout, page, error, loading など
-│   │   ├── 04-functions/            # cookies, headers, redirect など
-│   │   ├── 05-config/               # next.config.js オプション
-│   │   └── 06-cli/                  # next CLI コマンド
-│   └── 04-glossary.mdx              # 用語集
-├── 02-pages/                        # Pages Router ドキュメント
-│   ├── 01-getting-started/
-│   ├── 02-guides/
-│   ├── 03-building-your-application/
-│   └── 04-api-reference/
-├── 03-architecture/                 # アーキテクチャ解説
-│   ├── accessibility.mdx
-│   ├── fast-refresh.mdx
-│   ├── nextjs-compiler.mdx
-│   └── supported-browsers.mdx
-└── 04-community/                    # コミュニティ
-    ├── 01-contribution-guide.mdx
-    └── 02-rspack.mdx
+├── 01-app/
+│   ├── 01-getting-started/    # 入門ガイド（18 ファイル）
+│   ├── 02-guides/             # 認証、テスト、移行など
+│   ├── 03-api-reference/      # API リファレンス
+│   └── 04-glossary.mdx
+├── 02-pages/
+├── 03-architecture/
+└── 04-community/
 ```
+
+`.next-docs/` は `.gitignore` で除外する（再生成可能なため git 管理不要）。
+
+</details>
 
 ---
 
 ## 5. このプロジェクトでの活用方針
 
-### AI エージェントによるコード生成精度向上
+### バンドルドキュメントの参照フロー（v16.2+）
 
-本プロジェクトの `CLAUDE.md` には、コマンド実行で生成された Next.js ドキュメントインデックスが組み込まれている（`<!-- NEXT-AGENTS-MD-START -->` ブロック）。これにより、Claude Code は Next.js の正しい API・パターンを常に把握した状態でコード生成を行う。
+1. `CLAUDE.md` が `@AGENTS.md` をインポートし、エージェントにドキュメントの場所を伝える
+2. エージェントは `node_modules/next/dist/docs/` から該当ファイルを直接読み取る
+3. バージョンに一致したドキュメントに基づいてコードを生成する
 
-### Skills より AGENTS.md を優先する理由
+**実践例**: Server Actions の実装時 → `node_modules/next/dist/docs/01-app/01-getting-started/08-updating-data.mdx` を参照
 
-Vercel の評価研究が示すとおり、Skills はトリガー率 44%（56% が呼び出されない）という信頼性の問題がある。AGENTS.md はシステムプロンプトへの常時埋め込みにより、この問題を根本的に解消する。
+### ベンチマーク結果の確認
 
-### `.next-docs/` を参照インデックスとして使う方法
+実際の Next.js タスクでの評価結果は [nextjs.org/evals](https://nextjs.org/evals) で確認できる。
 
-CLAUDE.md のインデックスは「ドキュメントの場所」を示す地図として機能する。Claude Code は以下の流れで参照する：
+---
 
-1. CLAUDE.md のインデックスから該当ファイルのパスを特定する
-2. `.next-docs/` 内の該当 `.mdx` ファイルを読み取る
-3. 最新のドキュメントに基づいてコードを生成する
+## 6. Next.js 16.2 の AI 開発支援機能
 
-**実践例**: Server Actions の実装時 → `01-app/01-getting-started/08-updating-data.mdx` を参照
+参照元: [Next.js 16.2: AI Improvements](https://nextjs.org/blog/next-16-2-ai)
 
-### 環境再現手順
+### ブラウザログのターミナル転送
 
-`.next-docs/` が存在しない環境（CI、別マシン等）での再生成：
+開発中のブラウザエラーがデフォルトでターミナルに転送される。AIエージェントはブラウザコンソールを開かずにクライアントサイドエラーを把握できる。
 
-```bash
-npx @next/codemod@canary agents-md --output CLAUDE.md
+```ts
+// next.config.ts
+const nextConfig = {
+  logging: {
+    browserToTerminal: true,
+    // 'error' — エラーのみ（デフォルト）
+    // 'warn'  — 警告とエラー
+    // true    — すべてのコンソール出力
+    // false   — 無効化
+  },
+};
 ```
 
-このコマンドで `.next-docs/` が再生成され、CLAUDE.md のインデックスも最新化される。
+### 開発サーバーロックファイル
+
+`next dev` 起動時に `.next/dev/lock` ファイルにPID・ポート・URLが記録される。2番目の `next dev` が同ディレクトリで起動しようとすると、アクション可能なエラーメッセージが表示される:
+
+```bash
+Error: Another next dev server is already running.
+
+- Local:        http://localhost:3000
+- PID:          12345
+- Dir:          /path/to/project
+- Log:          .next/dev/logs/next-development.log
+
+Run kill 12345 to stop it.
+```
+
+AIエージェントが重複起動した場合でも、PIDを使って停止できる。
+
+### Experimental Agent DevTools: `@vercel/next-browser`
+
+AIエージェントがターミナルから実行中のNext.jsアプリを検査できるCLI。
+
+```bash
+# インストール（skill として）
+npx skills add vercel-labs/next-browser
+
+# Claude Code / Cursor 等で使用
+/next-browser
+```
+
+**主な機能:**
+
+| コマンド | 機能 |
+|---------|------|
+| `next-browser tree` | React コンポーネントツリー（props/hooks/ソースマップ付き） |
+| `next-browser ppr lock` | PPR静的シェルのみ表示（動的部分をブロック） |
+| `next-browser ppr unlock` | PPRブロック要因の診断レポート |
+| `next-browser goto <url>` | 指定URLへナビゲート |
+| スクリーンショット | ページの視覚的キャプチャ |
+| ネットワーク監視 | Server Actions含むリクエスト追跡 |
+
+**PPR（Partial Prerendering）最適化の例:**
+
+```bash
+next-browser ppr lock
+next-browser goto /blog/hello
+# → 静的シェルの範囲を確認
+
+next-browser ppr unlock
+# → ブロック要因を特定（どのコンポーネント・fetchが動的化させているか）
+```
 
 ---
 
 ## 関連ドキュメント
 
 - [`docs/claude/building-skill.md`](./building-skill.md) — Skills の設計・実装ガイド（AGENTS.md との比較対象）
+- [`docs/claude/modern-web-guidance.md`](./modern-web-guidance.md) — Google Chrome モダンウェブ機能ガイド
 - [Vercel ブログ記事](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals) — 評価研究の詳細
+- [Next.js AI Agents 公式ガイド](https://nextjs.org/docs/app/guides/ai-agents)
+- [Next.js 16.2 AI ブログ記事](https://nextjs.org/blog/next-16-2-ai)
+- [Next.js MCP Server ガイド](https://nextjs.org/docs/app/guides/mcp)
